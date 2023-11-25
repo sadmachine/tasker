@@ -31,7 +31,7 @@ class IniFile extends Tasker.StorageDrivers.File
         base.__New(path, ".ini")
     }
 
-    createFile(namespace, data)
+    addRecord(namespace, data)
     {
         local file
         filePath := this._getUniqueFilename(namespace)
@@ -40,25 +40,11 @@ class IniFile extends Tasker.StorageDrivers.File
         file.writeObject(data)
     }
 
-    readFile(filePath)
+    getRecord(filePath)
     {
         local file
         file := new #.IniFile(filePath)
         data := file.readObject()
         return data
-    }
-
-    _getUniqueFilename(namespace)
-    {
-        filePathBase := this.getNamespacePath(namespace)
-        FormatTime, dateStr,, % "yyyyMMddHHmmss"
-        index := -1
-        loop {
-            index += 1
-            filename := dateStr "-" index ".ini"
-            filePath := #.Path.concat(filePathBase, filename)
-        } until (!FileExist(filePath))
-
-        return filePath
     }
 }
