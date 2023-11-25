@@ -27,27 +27,32 @@
 ; Tasker.StorageDrivers.Base
 class Base
 {
-    addData(namespace, data)
+    addRecord(namespace, data)
     {
 
     }
 
-    fetchNamespaceData(namespace)
+    getRecordIds(namespace)
     {
 
     }
 
-    fetchData(namespace, identifier)
+    getRecords(namespace)
     {
 
     }
 
-    deleteNamespaceData(namespace)
+    getRecord(namespace, identifier)
     {
 
     }
 
-    deleteData(namespace, identifier)
+    deleteRecords(namespace)
+    {
+
+    }
+
+    deleteRecord(namespace, identifier)
     {
 
     }
