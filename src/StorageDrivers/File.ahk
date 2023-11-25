@@ -36,15 +36,15 @@ class File
         this.fileExtension := extension
     }
 
-    createFile(namespace, data)
+    addRecord(namespace, data)
     {
 
     }
 
-    retrieveFiles(namespace)
+    getRecordIds(namespace)
     {
         filePaths := []
-        queueGlob := #.Path.concat(this.getNamespacePath(namespace), "*" this.getFileExtension())
+        queueGlob := RTrim(this.getNamespacePath(namespace), "/") "/" "*" this.getFileExtension())
         Loop, Files, % queueGlob, F
         {
             filePaths.push(A_LoopFileLongPath)
@@ -52,14 +52,22 @@ class File
         return filePaths
     }
 
-    readFile(filePath)
+    getRecord(identifier)
     {
 
     }
 
-    deleteFile(filePath)
+    deleteRecords(namespace)
     {
-        FileDelete % filePath
+        loopFiles := RTrim(this.getNamespacePath(), "/") "/*"
+        Loop Files, loopFiles, F {
+            this.deleteRecord(A_LoopFileFullPath)
+        }
+    }
+
+    deleteRecord(identifier)
+    {
+        FileDelete % identifier
     }
 
     getFileExtension()
@@ -70,9 +78,9 @@ class File
 
     getNamespacePath(namespace)
     {
-        filePathBase := #.Path.concat(this.basePath, namespace)
+        
+        filePathBase := RTrim(this.basePath, "/") "/" namespace
         if (!InStr(FileExist(filePathBase), "D")) {
-            #.log("queue").info(A_ThisFunc, "Namespace path did not exist, creating it", {namespacePath: filePathBase})
             FileCreateDir % filePathBase
         }
         return filePathBase
@@ -86,7 +94,7 @@ class File
         loop {
             index += 1
             filename := dateStr "-" index this.getFileExtension()
-            filePath := #.Path.concat(filePathBase, filename)
+            filePath := RTrim(filePathBase, "/") "/" filename
         } until (!FileExist(filePath))
 
         return filePath
